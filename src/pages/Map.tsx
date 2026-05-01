@@ -1,7 +1,12 @@
-const Map = () => {
-  return (
-    <div>Map</div>
-  )
-}
+import "leaflet/dist/leaflet.css";
 
-export default Map
+
+const Map = () => {
+
+  return (
+    <div>mapa</div>
+      
+  );
+};
+
+export default Map;
