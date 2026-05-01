@@ -40,7 +40,6 @@ const normalizeMarker = (marker: MarkerPayload): Marker => {
 const getMyMarkers = async (): Promise<Marker[]> => {
   try {
     const response = await api.get("/markers/");
-    // El backend devuelve { status, message, data: [...] }
     return (response.data.data || []).map(normalizeMarker);
   } catch (error) {
     console.error("Error al obtener marcadores:", error);
@@ -58,7 +57,6 @@ interface CreateMarkerData {
 const createMarker = async (markerData: CreateMarkerData): Promise<Marker> => {
   try {
     const response = await api.post("/markers/", markerData);
-    // El backend devuelve { status, message, data: {...} }
     return normalizeMarker(response.data.data);
   } catch (error) {
     console.error("Error al crear marcador:", error);
