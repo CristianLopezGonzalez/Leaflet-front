@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import authService from '../services/AuthServices';
 
@@ -10,6 +10,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      navigate('/map', { replace: true });
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -17,7 +24,7 @@ export default function Login() {
 
     try {
       await authService.login({ email, password });
-      navigate('/map');
+      navigate('/map', { replace: true });
     } catch (err) {
       setError('Email o contraseña incorrectos');
     } finally {

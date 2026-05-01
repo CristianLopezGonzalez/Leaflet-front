@@ -4,6 +4,60 @@
   height: 100vh;
 }
 
+.map-header {
+  position: absolute;
+  
+  width: 50%;
+  top: 16px;
+  left: 500px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  color: #000000;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.28);
+}
+
+.map-header__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.map-header__subtitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #000000;
+}
+
+.logout-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #f97316;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.logout-button:hover {
+  background: #ea580c;
+  transform: translateY(-1px);
+}
+
+.logout-button:active {
+  transform: translateY(0);
+}
+
 .map-container {
   width: 100%;
   height: 100%;
