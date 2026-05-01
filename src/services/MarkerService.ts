@@ -41,6 +41,7 @@ const createMarker = async (markerData: CreateMarkerData): Promise<Marker> => {
 const deleteMarker = async (markerId: string): Promise<void> => {
   try {
     await api.delete(`/markers/${markerId}`);
+    return;
   } catch (error) {
     console.error("Error al eliminar marcador:", error);
     throw error;

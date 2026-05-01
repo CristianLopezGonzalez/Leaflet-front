@@ -19,10 +19,34 @@ export interface AuthResponse {
     accessToken: string;
 }
 
+type AuthResponseLike = {
+    accessToken?: string;
+    token?: string;
+    data?: {
+        accessToken?: string;
+        token?: string;
+    };
+};
+
+const extractAccessToken = (responseData: AuthResponseLike) => {
+    return (
+        responseData.accessToken ??
+        responseData.token ??
+        responseData.data?.accessToken ??
+        responseData.data?.token ??
+        null
+    );
+};
+
 const login = async (data: LoginData) => {
     try {
-        const response = await api.post<AuthResponse>("/auth/login", data);
-        const { accessToken } = response.data;
+        const response = await api.post<AuthResponseLike>("/auth/login", data);
+        const accessToken = extractAccessToken(response.data);
+
+        if (!accessToken) {
+            throw new Error("Login response did not include an access token");
+        }
+
         localStorage.setItem("accessToken", accessToken);
         return response.data;
     } catch (error) {
@@ -44,8 +68,13 @@ const logout = async () => {
 
 const refreshToken = async (data: RefreshTokenData) => {
     try {
-        const response = await api.post<AuthResponse>("/auth/refresh-token", data);
-        const { accessToken } = response.data;
+        const response = await api.post<AuthResponseLike>("/auth/refresh-token", data);
+        const accessToken = extractAccessToken(response.data);
+
+        if (!accessToken) {
+            throw new Error("Refresh token response did not include an access token");
+        }
+
         localStorage.setItem("accessToken", accessToken);
         return response.data;
     } catch (error) {

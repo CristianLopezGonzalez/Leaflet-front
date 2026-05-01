@@ -1,84 +1,58 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect } from "react";
-import MarkerService from "../services/MarkerService";
-import type { Marker } from "../services/MarkerService";
 
-interface UseMarkersReturn {
-  markers: Marker[];
-  addMarker: (
-    latitude: number,
-    longitude: number,
-    label?: string,
-  ) => Promise<void>;
-  removeMarker: (id: string) => Promise<void>;
-  isLoading: boolean;
-  error: string | null;
+import api from "../services/api";
+
+export interface Marker {
+  id: string;
+  userId: string;
+  lat: number;
+  lng: number;
+  label?: string;
+  createdAt?: string;
 }
-// Cargar marcadores al montar el componente
-export const UseMarkers = (): UseMarkersReturn => {
-  const [markers, setMarkers] = useState<Marker[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  // Cargar marcadores al montar el componente
-  useEffect(() => {
-    const loadMarkers = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const data = await MarkerService.getMyMarkers();
-        setMarkers(data);
-      } catch (err) {
-        setError("Failed to load markers.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+// Obtener todos los marcadores del usuario autenticado
+const getMyMarkers = async (): Promise<Marker[]> => {
+  try {
+    const response = await api.get("/markers/");
+    // El backend devuelve { status, message, data: [...] }
+    return response.data.data || [];
+  } catch (error) {
+    console.error("Error al obtener marcadores:", error);
+    throw error;
+  }
+};
 
-    loadMarkers();
-  }, []);
+// Crear un nuevo marcador
+interface CreateMarkerData {
+  lat: number;
+  lng: number;
+  label?: string;
+}
 
-  // Función para agregar un nuevo marcador
-  const addMarker = async (
-    latitude: number,
-    longitude: number,
-    label?: string,
-  ) => {
-    try {
-      setError(null);
-      const newMarker = await MarkerService.createMarker({
-        lat: latitude,
-        lng: longitude,
-        label,
-      });
-      setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
-    } catch (err) {
-      setError("Failed to add marker.");
-      console.error(err);
-      throw err;
-    }
-  };
+const createMarker = async (markerData: CreateMarkerData): Promise<Marker> => {
+  try {
+    const response = await api.post("/markers/", markerData);
+    // El backend devuelve { status, message, data: {...} }
+    return response.data.data;
+  } catch (error) {
+    console.error("Error al crear marcador:", error);
+    throw error;
+  }
+};
 
-  // Función para eliminar un marcador
-  const removeMarker = async (id: string) => {
-    try {
-      setError(null);
-      await MarkerService.deleteMarker(id);
-      setMarkers((prevMarkers) =>
-        prevMarkers.filter((marker) => marker.id !== id),
-      );
-    } catch (err) {
-      setError("Failed to remove marker.");
-      console.error(err);
-      throw err;
-    }
-  };
+// Eliminar un marcador por ID
+const deleteMarker = async (markerId: string): Promise<void> => {
+  try {
+    await api.delete(`/markers/${markerId}`);
+    return;
+  } catch (error) {
+    console.error("Error al eliminar marcador:", error);
+    throw error;
+  }
+};
 
-  return {
-    markers,
-    addMarker,
-    removeMarker,
-    isLoading,
-    error,
-  };
+export default {
+  getMyMarkers,
+  createMarker,
+  deleteMarker,
 };
