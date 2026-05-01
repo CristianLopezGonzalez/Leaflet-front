@@ -1,9 +1,11 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import { useMarkers } from "../hooks/UseMarkers";
 import { MapClickHandler } from "../hooks/Mapclickhandler";
 import { MarkerLayer } from "../components/Markerlayer";
 import { MarkerList } from "../components/Markerlist";
 import "../utils/Mappage.css";
+
+const { BaseLayer } = LayersControl;
 
 export const MapPage = () => {
   const { markers, addMarker, removeMarker, isLoading, error } = useMarkers();
@@ -15,13 +17,17 @@ export const MapPage = () => {
         zoom={13}
         className="map-container"
       >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        />
+        <LayersControl position="topright">
+          <BaseLayer checked name="OpenStreetMap">
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          </BaseLayer>
+
+          <BaseLayer name="Satélite (Esri)">
+            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+          </BaseLayer>
+        </LayersControl>
 
         <MapClickHandler onMarkerAdd={addMarker} />
-
         <MarkerLayer markers={markers} />
       </MapContainer>
 

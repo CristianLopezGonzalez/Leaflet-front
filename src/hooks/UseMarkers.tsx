@@ -56,8 +56,17 @@ export const useMarkers = (): UseMarkersReturn => {
   const removeMarker = async (id: string) => {
     try {
       setError(null);
-      // Primero intenta eliminar en el servidor
-      await MarkerService.deleteMarker(id);
+      // Primero intenta eliminar en el servidor necesito el id del usuario logeado
+      const userId = markers.find((m) => m.id === id)?.userId;
+      if (!userId) {
+        throw new Error("Marcador no encontrado");
+      }
+      const markerToDelete = markers.find((m) => m.id === id);
+      if (!markerToDelete) {
+        throw new Error("Marcador no encontrado");
+      }
+
+      await MarkerService.deleteMarker(userId, markerToDelete.id);
       // Si la petición es exitosa, actualiza el estado local
       setMarkers((prev) => prev.filter((m) => m.id !== id));
     } catch (err) {
