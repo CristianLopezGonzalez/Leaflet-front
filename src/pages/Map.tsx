@@ -1,12 +1,12 @@
-import { MapContainer, Marker as LeafletMarker, TileLayer } from "react-leaflet";
-import { useMarkers } from "../hooks/UseMarkers"; 
+import { MapContainer, TileLayer } from "react-leaflet";
+import { useMarkers } from "../hooks/UseMarkers";
 import { MapClickHandler } from "../hooks/Mapclickhandler";
 import { MarkerLayer } from "../components/Markerlayer";
 import { MarkerList } from "../components/Markerlist";
 import "../utils/Mappage.css";
 
 export const MapPage = () => {
-  const { markers, addMarker, removeMarker, isLoading, error } = useMarkers();  // ← Llama el hook con minúscula
+  const { markers, addMarker, removeMarker, isLoading, error } = useMarkers();
 
   return (
     <div className="map-page">

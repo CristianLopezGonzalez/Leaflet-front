@@ -21,7 +21,7 @@ export const MarkerList = ({ markers, onRemove, isLoading }: MarkerListProps) =>
               <div className="marker-info">
                 <p className="marker-label">{marker.label || "Marcador"}</p>
                 <p className="marker-coords">
-                  {marker.lat.toFixed(4)}, {marker.lng.toFixed(4)}
+                  {marker.latitude.toFixed(4)}, {marker.longitude.toFixed(4)}
                 </p>
               </div>
               <button
