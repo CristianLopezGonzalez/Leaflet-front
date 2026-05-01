@@ -5,14 +5,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import Login from "./pages/Login";
-import Map from "./pages/Map";
+import MapPage from "./pages/Map";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/map" element={<Map />} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
