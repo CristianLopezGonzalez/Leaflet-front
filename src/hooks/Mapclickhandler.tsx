@@ -1,18 +1,14 @@
 import { useMapEvents } from "react-leaflet";
 
 interface MapClickHandlerProps {
-  onMarkerAdd: (lat: number, lng: number) => Promise<void>;
+  onMapClick: (lat: number, lng: number) => void;
 }
 
-export const MapClickHandler = ({ onMarkerAdd }: MapClickHandlerProps) => {
+export const MapClickHandler = ({ onMapClick }: MapClickHandlerProps) => {
   useMapEvents({
-    click: async (e) => {
+    click: (e) => {
       const { lat, lng } = e.latlng;
-      try {
-        await onMarkerAdd(lat, lng);
-      } catch (error) {
-        console.error("No se pudo añadir marcador:", error);
-      }
+      onMapClick(lat, lng);
     },
   });
 

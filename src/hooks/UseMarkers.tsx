@@ -38,10 +38,11 @@ export const useMarkers = (): UseMarkersReturn => {
   const addMarker = async (latitude: number, longitude: number, label?: string) => {
     try {
       setError(null);
+      const normalizedLabel = label?.trim();
       const newMarker = await MarkerService.createMarker({
         latitude,
         longitude,
-        label: label || `Marcador ${markers.length + 1}`,
+        label: normalizedLabel || `Marcador ${markers.length + 1}`,
       });
       // Añade el marcador devuelto por el servidor (con su id real)
       setMarkers((prev) => [...prev, newMarker]);
