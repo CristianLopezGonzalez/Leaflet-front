@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import authService from '../services/AuthServices';
+import '../utils/login.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -33,62 +34,77 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-slate-800 rounded-lg shadow-2xl p-8 space-y-6">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-cyan-400">Login</h1>
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-card">
+          <div className="login-header">
+            <h1 className="login-title">Iniciar sesión</h1>
+            <p className="login-subtitle">user: test@gmail.com | pass: test123</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-cyan-400 text-sm font-medium mb-2">
-                Email:
+          <form onSubmit={handleSubmit} className="login-form">
+            <div className="form-group">
+              <label htmlFor="email" className="form-label">
+                Email
               </label>
               <input
+                id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-cyan-400 focus:outline-none transition"
-                placeholder="Enter email"
+                className="form-input"
+                placeholder="tu@email.com"
                 required
+                disabled={isLoading}
+                autoComplete="email"
               />
             </div>
 
-            <div>
-              <label className="block text-cyan-400 text-sm font-medium mb-2">
-                Password:
+            <div className="form-group">
+              <label htmlFor="password" className="form-label">
+                Contraseña
               </label>
               <input
+                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-cyan-400 focus:outline-none transition"
-                placeholder="Enter password"
+                className="form-input"
+                placeholder="••••••••"
                 required
+                disabled={isLoading}
+                autoComplete="current-password"
               />
             </div>
 
             {error && (
-              <div className="p-3 bg-red-900/50 border border-red-600 rounded-lg text-red-400 text-sm">
-                {error}
+              <div className="error-message">
+                <span className="error-icon">⚠</span>
+                <p>{error}</p>
               </div>
             )}
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-2 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition disabled:opacity-50"
+              className="submit-button"
             >
-              {isLoading ? 'Cargando...' : 'Login'}
+              {isLoading ? (
+                <>
+                  <span className="spinner"></span>
+                  Cargando...
+                </>
+              ) : (
+                'Iniciar sesión'
+              )}
             </button>
           </form>
 
-          <div className="text-right">
-            <p className="text-cyan-400 text-sm">
+          <div className="login-footer">
+            <p className="footer-text">
               ¿No tienes cuenta?{' '}
-              <Link to="/register" className="hover:text-cyan-300 transition">
-                Regístrate
+              <Link to="/register" className="footer-link">
+                Regístrate aquí
               </Link>
             </p>
           </div>

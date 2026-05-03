@@ -64,6 +64,66 @@
   }
 }
 
+.marker-search {
+  position: relative;
+  padding: 12px 14px;
+  background: #f9fafb;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.marker-search__input {
+  width: 100%;
+  padding: 10px 12px 10px 36px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.marker-search__input::placeholder {
+  color: #9ca3af;
+}
+
+.marker-search__input:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.marker-search__input:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.marker-search__input::before {
+  content: "🔍";
+  position: absolute;
+  left: 10px;
+  color: #9ca3af;
+}
+
+.marker-search__clear {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  transition: all 0.2s ease;
+}
+
+.marker-search__clear:hover {
+  color: #000000;
+}
+
 .marker-list {
   list-style: none;
   margin: 0;
@@ -90,7 +150,6 @@
 .marker-list::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
-
 
 .marker-item {
   display: flex;
@@ -217,5 +276,14 @@
 
   .marker-list-panel h3 {
     text-align: center;
+  }
+
+  .marker-search {
+    padding: 10px 12px;
+  }
+
+  .marker-search__input {
+    padding: 9px 10px 9px 32px;
+    font-size: 12px;
   }
 }

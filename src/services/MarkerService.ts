@@ -80,8 +80,22 @@ const deleteMarker = async (userId: string, markerId: string): Promise<void> => 
   }
 };
 
+const filterMarkersByLabel = async (search: string) => {
+  try {
+    const response = await api.get("/markers/filter?label=" + search, {
+      
+    });
+    return response.data.data.map(normalizeMarker);
+
+  }catch (error) {
+    console.error("Error al filtrar marcadores:", error);
+    return [];
+  }
+}
+
 export default {
   getMyMarkers,
   createMarker,
   deleteMarker,
+  filterMarkersByLabel,
 };
